@@ -1,6 +1,8 @@
 <template>
 	<div class="view">
 		
+		<loading v-if="!users"></loading>
+
 		<div class="filters">
 			<a href="" class="button is-primary">Followers</a>
 			<a href="" class="button is-primary">Repositories</a>
@@ -13,7 +15,7 @@
 				<!-- Profile Photo -->
 				<div class="card-image">
 					<figure class="image is4by3">
-						<router-link :to="{ name: 'Profile', params: { username: user.login } }">
+						<router-link :to="{ name: 'Profile', params: { username: user.login } }" :title="'Open ' + user.login + '`s profile'">
 							<img :src="user.avatar_url" :alt="user.login">
 						</router-link>
 					</figure>
@@ -35,12 +37,18 @@
 </template>
 
 <script>
+	// Import components
+	import Loading from '@/components/Loading';
+
 	export default {
 		name: '',
 		data() {
 			return {
 				users: '',
 			};
+		},
+		components: {
+			loading: Loading,
 		},
 		created() {
 			this.$http.get('https://api.github.com/search/users?q=location:Angola&per_page=100')
@@ -69,10 +77,10 @@
 		width: 25%;
 		min-height: 250px;
 		float: left;
-		padding: 0 5px;
+		margin-bottom: 15px;
 	}
 
 	.users .user .card-content{
-		padding: 10px 0 0 0;
+		padding: 10px;
 	}
 </style>
