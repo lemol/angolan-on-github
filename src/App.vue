@@ -13,5 +13,13 @@ export default {
 </script>
 
 <style>
+	/* Global styles */
 	@import '../node_modules/bulma/css/bulma.css';
+
+	a{
+		-webkit-transition: color .5s;
+		-moz-transition: color .5s;
+		-ms-transition: color .5s;
+		transition: color .5s;
+	}
 </style>
