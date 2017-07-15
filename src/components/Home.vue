@@ -27,16 +27,6 @@
 							@{{ user.login }}
 						</a>
 					</h1>
-					<!-- Username -->
-					<p class="title is-6">
-						<a href=""></a>
-					</p>
-					<hr>
-
-					<!-- Bio -->
-					<div class="content bio">
-						
-					</div>
 				</div>
 			</div>
 		</article>
@@ -77,6 +67,7 @@
 
 	.users .user{
 		width: 25%;
+		min-height: 250px;
 		float: left;
 		padding: 0 5px;
 	}
