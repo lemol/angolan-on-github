@@ -1,5 +1,7 @@
 <template>
 	<div class="view">
+		<loading v-if="showLoadBar"></loading>
+
 		<div class="card">
 			<div class="card-image">
 				<figure>
@@ -15,9 +17,11 @@
 						{{ user.name }}
 					</a>
 				</p>
-				<p class="subtitle is-6"> 
+				<p class="subtitle is-6">
+					<i class="fa fa-map-marker" aria-hidden="true"></i>
 					{{ user.location }}
-					-
+					&nbsp;
+					<i class="fa fa-link" aria-hidden="true"></i>
 					<a :href="user.blog"> {{ user.blog }} </a>
 				</p>
 				
@@ -39,8 +43,16 @@
 								<a :href="repo.html_url" target="blank"> {{ repo.name }} </a>
 							</p>
 							
-							<span>Stars {{ repo.stargazers_count }} </span>
-							<span>Forks {{ repo.forks }} </span>
+							<!-- Repository Metadata -->
+							<span class="meta-data">
+								<i class="fa fa-star" aria-hidden="true"></i>
+								{{ repo.stargazers_count }}
+							</span>
+							&nbsp;
+							<span>
+								<i class="fa fa-code-fork" aria-hidden="true"></i>
+								{{ repo.forks }}
+							</span>
 						</div>
 					</a>
 				</div>
@@ -50,13 +62,20 @@
 </template>
 
 <script>
+	// Import components
+	import Loading from '@/components/Loading';
+
 	export default {
 		name: 'Profile',
 		data() {
 			return {
 				user: '',
 				repositories: '',
+				showLoadBar: true,
 			};
+		},
+		components: {
+			loading: Loading,
 		},
 		created() {
 			// Get username from url param
@@ -67,7 +86,8 @@
 				(user) => {
 					const data = JSON.parse(user.bodyText);
 					this.user = data;
-					console.log(data);
+					// Hide loading bar
+					this.showLoadBar = false;
 					this.GetRepositories();
 				},
 				(err) => {

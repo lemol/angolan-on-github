@@ -3,15 +3,22 @@
 		
 		<loading v-if="showLoadBar"></loading>
 
-		<!--<div class="filters">
-			<a href="" class="button is-primary">Followers</a>
-			<a href="" class="button is-primary">Repositories</a>
-			<a href="" class="button is-primary">Joined date</a>
-		</div>-->
+		<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a> 🙌 👏.</h1>
 
+		<!-- Filters -->
+		<!--<div class="filters wrap">
+			<label for="">Followers</label>
+			<input type="checkbox" value="followers" name="followers">
+			&nbsp;|&nbsp;
+			<label for="">Joined date</label>
+			<input type="checkbox" value="followers" name="joined">
+			&nbsp;|&nbsp;
+			<label for="">Number of repositories</label>
+			<input type="checkbox" value="followers" name="">
+		</div>-->
+	
 		<!-- Users box -->
 		<article class="users wrap">
-			<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a>.</h1>
 			<div class="user card" v-for="user in users">
 				<!-- Profile Photo -->
 				<div class="card-image">
