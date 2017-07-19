@@ -3,14 +3,14 @@
 		
 		<loading v-if="!users"></loading>
 
-		<div class="filters">
+		<!--<div class="filters">
 			<a href="" class="button is-primary">Followers</a>
 			<a href="" class="button is-primary">Repositories</a>
 			<a href="" class="button is-primary">Joined date</a>
-		</div>
+		</div>-->
 
 		<!-- Users box -->
-		<article class="users">
+		<article class="users wrap">
 			<div class="user card" v-for="user in users">
 				<!-- Profile Photo -->
 				<div class="card-image">
@@ -33,6 +33,10 @@
 			</div>
 		</article>
 
+		<!-- Load More Button -->
+		<div class="wrap">
+			<a class="button is-info" @click="LoadMoreProfiles">Load more profiles</a>
+		</div>
 	</div>
 </template>
 
@@ -51,7 +55,7 @@
 			loading: Loading,
 		},
 		created() {
-			this.$http.get('https://api.github.com/search/users?q=location:Angola&per_page=100')
+			this.$http.get('https://api.github.com/search/users?q=location:Angola&per_page=30')
 			.then(
 				(users) => {
 					const data = JSON.parse(users.bodyText);
@@ -63,13 +67,36 @@
 				},
 			);
 		},
+		methods: {
+			LoadMoreProfiles() {
+				/*
+				*	This method fecth more users from Github API
+				*/
+				this.$http.get('https://api.github.com/search/users?q=location:Angola&per_page=30&page=2')
+				.then(
+					(users) => {
+						// Parse the raw data as JSON format
+						const data = JSON.parse(users.bodyText);
+						// Concatenate the fetched results with a existing array
+						this.users = this.users.concat(data.items);
+						console.log(data);
+					},
+					(err) => {
+						console.log(err);
+					},
+				);
+			},
+		},
 	};
 </script>
 
 <style>
-	.users{
+	.wrap{
 		width: 70%;
 		margin: 0 auto;
+	}
+
+	.users{
 		overflow: auto;
 	}
 
