@@ -11,6 +11,7 @@
 
 		<!-- Users box -->
 		<article class="users wrap">
+			<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a>.</h1>
 			<div class="user card" v-for="user in users">
 				<!-- Profile Photo -->
 				<div class="card-image">
@@ -34,7 +35,7 @@
 		</article>
 
 		<!-- Load More Button -->
-		<div class="wrap">
+		<div class="wrap" v-show="users">
 			<a class="button is-info" @click="LoadMoreProfiles">Load more profiles</a>
 		</div>
 	</div>
@@ -120,6 +121,13 @@
 	.wrap{
 		width: 70%;
 		margin: 0 auto;
+	}
+
+	.we-are{
+		font-size: 30px;
+		font-weight: bold;
+		color: #00d1b2;
+		text-align: center;
 	}
 
 	.users{

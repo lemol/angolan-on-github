@@ -1,16 +1,17 @@
 <template>
 	<div id="app">
-		<header class="main-header">
-			<a href="/">
+		<header class="main-header" v-show="!users">
+			<a href="/#">
 				<img src="/static/logo.png">
 			</a>
 			<p>Get to know all the coders based in Angola who loves open source in the Octocat's platform a.k.a Github.</p>
 		</header>
 		<router-view></router-view>
-		<footer class="main-footer">
+		<footer class="main-footer" v-show="!users">
 			<div class="content">
-				<p>Released under the <a href="">MIT License</a></p>
-				<p>With ❤ by <a href="https://github.com/flowck" title="Hi there, it's me">Firmino Changani</a></p>
+				<p>angolans-on-github is fully open source released under the <a href="">MIT License</a>. You can 
+				<a href="https://github.com/flowck/angolan-on-github">contribute from here.</a></p>
+				<p>Built with ❤ by <a href="https://github.com/flowck" title="Hi there, it's me">Firmino Changani</a></p>
 			</div>
 		</footer>
 	</div>
@@ -27,7 +28,7 @@ export default {
 	@import '../node_modules/bulma/css/bulma.css';
 	@import '../node_modules/font-awesome/css/font-awesome.min.css';
 
-	body, html{
+	body{
 		height: 100%;
 		position: relative;
 	}
