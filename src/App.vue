@@ -1,8 +1,10 @@
 <template>
 	<div id="app">
 		<header class="main-header">
-			<h1>ANGOLANS ON GITHUB</h1>
-			<p>Know all the coders based in Angola who loves open source in the Octocat's platform a.k.a Github.</p>
+			<a href="/">
+				<img src="/static/logo.png">
+			</a>
+			<p>Get to know all the coders based in Angola who loves open source in the Octocat's platform a.k.a Github.</p>
 		</header>
 		<router-view></router-view>
 		<footer class="main-footer">
