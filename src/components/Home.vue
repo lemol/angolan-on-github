@@ -1,7 +1,7 @@
 <template>
 	<div class="view">
 		
-		<loading v-if="!users"></loading>
+		<loading v-if="showLoadBar"></loading>
 
 		<!--<div class="filters">
 			<a href="" class="button is-primary">Followers</a>
@@ -49,6 +49,10 @@
 		data() {
 			return {
 				users: '',
+				totalUsers: 0,
+				pagination: 0,
+				pageNumber: 1,
+				showLoadBar: true,
 			};
 		},
 		components: {
@@ -59,8 +63,17 @@
 			.then(
 				(users) => {
 					const data = JSON.parse(users.bodyText);
+					// Number of users found
+					this.totalUsers = data.total_count;
+					// Pagination is the result of total users found devided by
+					// the number of users listed per request which is 30
+					this.pagination = Math.round(data.total_count / 30) + 1;
+					// Store all the users found
 					this.users = data.items;
-					console.log(data);
+
+					// Hide loading bar
+					this.showLoadBar = false;
+					console.log(this.pagination);
 				},
 				(err) => {
 					console.log(err);
@@ -72,19 +85,32 @@
 				/*
 				*	This method fecth more users from Github API
 				*/
-				this.$http.get('https://api.github.com/search/users?q=location:Angola&per_page=30&page=2')
-				.then(
-					(users) => {
-						// Parse the raw data as JSON format
-						const data = JSON.parse(users.bodyText);
-						// Concatenate the fetched results with a existing array
-						this.users = this.users.concat(data.items);
-						console.log(data);
-					},
-					(err) => {
-						console.log(err);
-					},
-				);
+
+				// Show loading bar
+				this.showLoadBar = true;
+
+				// Condition to change pagination number
+				if (this.pageNumber <= this.pagination) {
+					// Increment in the number of the page to be requested on github
+					this.pageNumber += 1;
+
+					// Request the data
+					this.$http.get(`https://api.github.com/search/users?q=location:Angola&per_page=30&page=${this.pageNumber}`)
+					.then(
+						(users) => {
+							// Parse the raw data as JSON format
+							const data = JSON.parse(users.bodyText);
+							// Concatenate the fetched results with a existing array
+							this.users = this.users.concat(data.items);
+							console.log(data);
+							// Hide loading bar
+							this.showLoadBar = false;
+						},
+						(err) => {
+							console.log(err);
+						},
+					);
+				}
 			},
 		},
 	};
