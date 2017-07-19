@@ -23,6 +23,7 @@ export default {
 <style>
 	/* Global styles */
 	@import '../node_modules/bulma/css/bulma.css';
+	@import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 	body, html{
 		height: 100%;
@@ -48,6 +49,7 @@ export default {
 	.main-footer{
 		width: 100%;
 		padding: 40px 0;
+		margin-top: 20px;
 		text-align: center;
 		background-color: #34495e;
 	}
