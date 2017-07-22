@@ -1,6 +1,6 @@
 <template>
 	<div class="view">
-		
+
 		<loading v-if="showLoadBar"></loading>
 
 		<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a> 🙌 👏.</h1>
@@ -67,7 +67,7 @@
 			loading: Loading,
 		},
 		created() {
-			this.$http.get('https://api.github.com/search/users?q=location:Angola&per_page=30')
+			this.$http.get('https://api.github.com/search/users?q=location:Angola+location:luanda&per_page=30')
 			.then(
 				(users) => {
 					const data = JSON.parse(users.bodyText);
@@ -101,7 +101,7 @@
 					this.pageNumber += 1;
 
 					// Request the data
-					this.$http.get(`https://api.github.com/search/users?q=location:Angola&per_page=30&page=${this.pageNumber}`)
+					this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`)
 					.then(
 						(users) => {
 							// Parse the raw data as JSON format
