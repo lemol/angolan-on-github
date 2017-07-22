@@ -3,19 +3,14 @@
 
 		<loading v-if="showLoadBar"></loading>
 
-		<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a> 🙌 👏.</h1>
+		<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} programmers and organizations based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a> 🙌 👏.</h1>
 
 		<!-- Filters -->
-		<!--<div class="filters wrap">
-			<label for="">Followers</label>
-			<input type="checkbox" value="followers" name="followers">
-			&nbsp;|&nbsp;
-			<label for="">Joined date</label>
-			<input type="checkbox" value="followers" name="joined">
-			&nbsp;|&nbsp;
-			<label for="">Number of repositories</label>
-			<input type="checkbox" value="followers" name="">
-		</div>-->
+		<div class="filters wrap">
+			<span class="tag" @click="Sort('followers')">Followers</span>
+			<span class="tag" @click="Sort('joined')">Joined date</span>
+			<span class="tag" @click="Sort('repositories')">Number of repositories</span>
+		</div>
 	
 		<!-- Users box -->
 		<article class="users wrap">
@@ -61,32 +56,44 @@
 				pagination: 0,
 				pageNumber: 1,
 				showLoadBar: true,
+				sort: '',
 			};
 		},
 		components: {
 			loading: Loading,
 		},
 		created() {
-			this.$http.get('https://api.github.com/search/users?q=location:Angola+location:luanda&per_page=30')
-			.then(
-				(users) => {
-					const data = JSON.parse(users.bodyText);
-					// Number of users found
-					this.totalUsers = data.total_count;
-					// Pagination is the result of total users found devided by
-					// the number of users listed per request which is 30
-					this.pagination = Math.round(data.total_count / 30) + 1;
-					// Store all the users found
-					this.users = data.items;
-					// Hide loading bar
-					this.showLoadBar = false;
-				},
-				(err) => {
-					console.log(err);
-				},
-			);
+			this.LoadProfiles();
 		},
 		methods: {
+			Sort(sortName) {
+				// Set the new sort parameter
+				this.sort = sortName;
+				// Call Loading Bar
+				this.showLoadBar = true;
+				// Make the request in the API
+				this.LoadProfiles();
+			},
+			LoadProfiles() {
+				this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&sort=${this.sort}&per_page=30`)
+				.then(
+					(users) => {
+						const data = JSON.parse(users.bodyText);
+						// Number of users found
+						this.totalUsers = data.total_count;
+						// Pagination is the result of total users found devided by
+						// the number of users listed per request which is 30
+						this.pagination = Math.round(data.total_count / 30) + 1;
+						// Store all the users found
+						this.users = data.items;
+						// Hide loading bar
+						this.showLoadBar = false;
+					},
+					(err) => {
+						console.log(err);
+					},
+				);
+			},
 			LoadMoreProfiles() {
 				/*
 				*	This method fecth more users from Github API
@@ -151,5 +158,14 @@
 
 	.users .user .card-content{
 		padding: 10px;
+	}
+
+	/* Filters */
+	.filters{
+		margin-bottom: 20px;
+	}
+
+	.filters .tag{
+		cursor: pointer;
 	}
 </style>
