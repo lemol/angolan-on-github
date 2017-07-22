@@ -16,17 +16,16 @@ npm run build
 
 # build for production and view the bundle analyzer report
 npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-# MIT License
+# How to contribute
+
+If you would like to contribute feel free to do so, but first read our [guide](CONTRIBUTING.md) to make it easier for everyone. 
+
+# License
+
+This project is under MIT license. Read more about that [here](LICENSE.md)
+
+Copyright 2017 - [Firmino Changani](http://github.com/flowck)
