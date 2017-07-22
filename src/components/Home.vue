@@ -78,10 +78,8 @@
 					this.pagination = Math.round(data.total_count / 30) + 1;
 					// Store all the users found
 					this.users = data.items;
-
 					// Hide loading bar
 					this.showLoadBar = false;
-					console.log(this.pagination);
 				},
 				(err) => {
 					console.log(err);
@@ -110,7 +108,6 @@
 							const data = JSON.parse(users.bodyText);
 							// Concatenate the fetched results with a existing array
 							this.users = this.users.concat(data.items);
-							console.log(data);
 							// Hide loading bar
 							this.showLoadBar = false;
 						},
@@ -146,6 +143,10 @@
 		min-height: 250px;
 		float: left;
 		margin-bottom: 15px;
+	}
+
+	.users .user .title{
+		font-size: 20px;
 	}
 
 	.users .user .card-content{
