@@ -5,11 +5,19 @@
 
 		<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} programmers and organizations based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a> 🙌 👏.</h1>
 
-		<!-- Filters -->
+		<!-- Sorts, Orders, -->
 		<div class="filters wrap">
-			<span class="tag" @click="Sort('followers')">Followers</span>
-			<span class="tag" @click="Sort('joined')">Joined date</span>
-			<span class="tag" @click="Sort('repositories')">Number of repositories</span>
+			<!-- Sorts -->
+			<span class="tag" @click="Sort('followers', $event.target)">Followers</span>
+			<span class="tag" @click="Sort('joined', $event.target)">Joined date</span>
+			<span class="tag" @click="Sort('repositories', $event.target)">Number of repositories</span>
+
+			<!-- Orders -->
+			<span class="tag is-dark" @click="Order('asc')" title="Get results in ascending order" v-if="showOrdersBtn">Ascending</span>
+			<span class="tag is-dark" @click="Order('desc')" title="Get results in descending order" v-if="showOrdersBtn">Descending</span>
+
+			<!-- Clear button to return to the original results -->
+			<span class="tag is-warning" @click="Clear()">Clear</span>
 		</div>
 	
 		<!-- Users box -->
@@ -56,7 +64,9 @@
 				pagination: 0,
 				pageNumber: 1,
 				showLoadBar: true,
+				showOrdersBtn: false,
 				sort: '',
+				order: '',
 			};
 		},
 		components: {
@@ -66,7 +76,37 @@
 			this.LoadProfiles();
 		},
 		methods: {
-			Sort(sortName) {
+			Clear() {
+				// Show loading bar
+				this.showLoadBar = true;
+				// Clear selected highlight
+				const t = document.querySelector('.is-success');
+				if (t) {
+					t.classList.remove('is-success');
+				}
+				// Clear filters
+				this.order = '';
+				this.sort = '';
+
+				// Load profiles
+				this.LoadProfiles();
+			},
+			Order(orderName) {
+				// Set the new order
+				this.order = `&order=${orderName}`;
+				// Call Loading Bar
+				this.showLoadBar = true;
+				// Make the request in the API
+				this.LoadProfiles();
+			},
+			Sort(sortName, target) {
+				// Clear any background-color from previous actions
+				const t = document.querySelector('.is-success');
+				if (t) {
+					t.classList.remove('is-success');
+				}
+				// Change background-color of the clicked element
+				target.classList.add('is-success');
 				// Set the new sort parameter
 				this.sort = sortName;
 				// Call Loading Bar
@@ -75,7 +115,7 @@
 				this.LoadProfiles();
 			},
 			LoadProfiles() {
-				this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&sort=${this.sort}&per_page=30`)
+				this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`)
 				.then(
 					(users) => {
 						const data = JSON.parse(users.bodyText);
