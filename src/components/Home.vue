@@ -13,11 +13,11 @@
 			<span class="tag" @click="Sort('repositories', $event.target)">Number of repositories</span>
 
 			<!-- Orders -->
-			<span class="tag is-dark" @click="Order('asc')" title="Get results in ascending order" v-if="showOrdersBtn">Ascending</span>
-			<span class="tag is-dark" @click="Order('desc')" title="Get results in descending order" v-if="showOrdersBtn">Descending</span>
+			<span class="tag is-dark" @click="Order('asc')" title="Get results in ascending order" v-show="showOrdersBtn">Ascending</span>
+			<span class="tag is-dark" @click="Order('desc')" title="Get results in descending order" v-show="showOrdersBtn">Descending</span>
 
 			<!-- Clear button to return to the original results -->
-			<span class="tag is-warning" @click="Clear()">Clear</span>
+			<span class="tag is-warning" @click="Clear()" v-show="showOrdersBtn">Clear</span>
 		</div>
 	
 		<!-- Users box -->
@@ -90,6 +90,9 @@
 
 				// Load profiles
 				this.LoadProfiles();
+
+				// Hide options buttons
+				this.showOrdersBtn = false;
 			},
 			Order(orderName) {
 				// Set the new order
@@ -107,6 +110,8 @@
 				}
 				// Change background-color of the clicked element
 				target.classList.add('is-success');
+				// Show Options buttons
+				this.showOrdersBtn = true;
 				// Set the new sort parameter
 				this.sort = sortName;
 				// Call Loading Bar
