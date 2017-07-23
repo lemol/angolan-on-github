@@ -4,14 +4,16 @@
 			<a href="/#">
 				<img src="/static/logo.png">
 			</a>
-			<p>Get to know all the coders based in Angola who loves open source in the Octocat's platform a.k.a Github.</p>
+			<p>Get to know all the coders based in Angola who loves and work in open source projects on Github.</p>
 		</header>
 		<router-view></router-view>
 		<footer class="main-footer">
 			<div class="content">
-				<p>angolans-on-github is fully open source released under the <a href="">MIT License</a>. You can 
-				<a href="https://github.com/flowck/angolan-on-github">contribute from here.</a></p>
-				<p>Built with ❤ by <a href="https://github.com/flowck" title="Hi there, it's me">Firmino Changani</a></p>
+				<a href="https://github.com/AngoDev" target="blank" title="AndoDev - Comunidade de Programadores Angolanos">
+					<img src="/static/angodev.png" alt="AngoDev">
+				</a>
+				<p>angolans-on-github is fully open source released under the <a href="https://github.com/flowck/angolan-on-github/README.md">MIT License</a>. You can <a href="https://github.com/flowck/angolan-on-github">contribute from here.</a></p>
+				<p>Built with <span class="heart">❤</span> by <a href="https://github.com/flowck" title="Hi there, it's me">Firmino Changani</a></p>
 			</div>
 		</footer>
 	</div>
@@ -60,5 +62,23 @@ export default {
 	.main-footer p,
 	.main-footer a{
 		color: #FFF;
+	}
+
+	.main-footer a{
+		text-decoration: underline;
+	}
+	
+	/* Animate the heart */
+	.heart{
+		animation: infinite 1s heartBeat;
+	}
+
+	@keyframes heartBeat{
+		from{
+			color: red;
+		}
+		to{
+			color: pink;
+		}
 	}
 </style>
