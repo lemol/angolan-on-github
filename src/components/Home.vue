@@ -25,7 +25,7 @@
 
 			<div class="column is-one-quarter">
 				<div class="field">
-					<input type="text" placeholder="Search by name" class="input">
+					<input type="text" v-model="searchTerm" v-on:keyup.enter="LoadProfiles()" placeholder="Search by name" class="input">
 				</div>
 			</div>
 		</div>
@@ -69,7 +69,8 @@
 		name: '',
 		data() {
 			return {
-				users: '',
+				users: [],
+				searchTerm: '',
 				totalUsers: 0,
 				pagination: 0,
 				pageNumber: 1,
@@ -130,7 +131,7 @@
 				this.LoadProfiles();
 			},
 			LoadProfiles() {
-				this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`)
+				this.$http.get(`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`)
 				.then(
 					(users) => {
 						const data = JSON.parse(users.bodyText);
@@ -163,7 +164,7 @@
 					this.pageNumber += 1;
 
 					// Request the data
-					this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`)
+					this.$http.get(`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`)
 					.then(
 						(users) => {
 							// Parse the raw data as JSON format
