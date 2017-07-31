@@ -6,22 +6,32 @@
 		<h1 v-show="users" class="we-are title is-4">We are {{ totalUsers }} programmers and organizations based in <a href="https://en.wikipedia.org/wiki/Angola" title="Want to know more about Angola?">Angola</a> 🙌 👏.</h1>
 
 		<!-- Sorts, Orders, -->
-		<div class="filters wrap">
-			<!-- Sorts -->
-			<span class="tag" @click="Sort('followers', $event.target)">Followers</span>
-			<span class="tag" @click="Sort('joined', $event.target)">Joined date</span>
-			<span class="tag" @click="Sort('repositories', $event.target)">Number of repositories</span>
+		<div class="columns">
+			<div class="column">
+				<div class="filters">
+					<!-- Sorts -->
+					<span class="tag" @click="Sort('followers', $event.target)">Followers</span>
+					<span class="tag" @click="Sort('joined', $event.target)">Joined date</span>
+					<span class="tag" @click="Sort('repositories', $event.target)">Number of repositories</span>
 
-			<!-- Orders -->
-			<span class="tag is-dark" @click="Order('asc')" title="Get results in ascending order" v-show="showOrdersBtn">Ascending</span>
-			<span class="tag is-dark" @click="Order('desc')" title="Get results in descending order" v-show="showOrdersBtn">Descending</span>
+					<!-- Orders -->
+					<span class="tag is-dark" @click="Order('asc')" title="Get results in ascending order" v-show="showOrdersBtn">Ascending</span>
+					<span class="tag is-dark" @click="Order('desc')" title="Get results in descending order" v-show="showOrdersBtn">Descending</span>
 
-			<!-- Clear button to return to the original results -->
-			<span class="tag is-warning" @click="Clear()" v-show="showOrdersBtn">Clear</span>
+					<!-- Clear button to return to the original results -->
+					<span class="tag is-warning" @click="Clear()" v-show="showOrdersBtn">Clear</span>
+				</div>
+			</div><!--//.column -->
+
+			<div class="column is-one-quarter">
+				<div class="field">
+					<input type="text" v-model="searchTerm" v-on:keyup.enter="LoadProfiles()" placeholder="Search by name" class="input">
+				</div>
+			</div>
 		</div>
-	
+
 		<!-- Users box -->
-		<article class="users wrap">
+		<article class="users">
 			<div class="user card" v-for="user in users">
 				<!-- Profile Photo -->
 				<div class="card-image">
@@ -45,7 +55,7 @@
 		</article>
 
 		<!-- Load More Button -->
-		<div class="wrap" v-show="users">
+		<div v-show="users">
 			<a class="button is-info" @click="LoadMoreProfiles">Load more profiles</a>
 		</div>
 	</div>
@@ -59,7 +69,8 @@
 		name: '',
 		data() {
 			return {
-				users: '',
+				users: [],
+				searchTerm: '',
 				totalUsers: 0,
 				pagination: 0,
 				pageNumber: 1,
@@ -120,7 +131,7 @@
 				this.LoadProfiles();
 			},
 			LoadProfiles() {
-				this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`)
+				this.$http.get(`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&sort=${this.sort}${this.order}&per_page=30`)
 				.then(
 					(users) => {
 						const data = JSON.parse(users.bodyText);
@@ -153,7 +164,7 @@
 					this.pageNumber += 1;
 
 					// Request the data
-					this.$http.get(`https://api.github.com/search/users?q=location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`)
+					this.$http.get(`https://api.github.com/search/users?q=${this.searchTerm} location:Angola+location:luanda&per_page=30&page=${this.pageNumber}`)
 					.then(
 						(users) => {
 							// Parse the raw data as JSON format
@@ -174,11 +185,6 @@
 </script>
 
 <style>
-	.wrap{
-		width: 70%;
-		margin: 0 auto;
-	}
-
 	.we-are{
 		font-size: 30px;
 		font-weight: bold;
