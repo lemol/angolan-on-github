@@ -1,12 +1,16 @@
 <template>
 	<div id="app">
-		<header class="main-header">
+		<header class="main-header container">
 			<a href="/#">
 				<img src="/static/logo.png">
 			</a>
 			<p>Get to know all the coders based in Angola who loves and work in open source projects on Github.</p>
 		</header>
-		<router-view></router-view>
+
+		<div class="container">
+			<router-view></router-view>
+		</div>
+
 		<footer class="main-footer">
 			<div class="content">
 				<a href="https://github.com/AngoDev" target="blank" title="AndoDev - Comunidade de Programadores Angolanos">
@@ -42,6 +46,10 @@ export default {
 		transition: color .5s;
 	}
 
+	.container {
+		padding: 0 20px 0 20px;
+	}
+
 	/* Header */
 	.main-header{
 		width: 50%;
@@ -67,7 +75,7 @@ export default {
 	.main-footer a{
 		text-decoration: underline;
 	}
-	
+
 	/* Animate the heart */
 	.heart{
 		animation: infinite 1s heartBeat;
